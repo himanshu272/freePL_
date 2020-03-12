@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block body %}
+    
+     
+        {% block msgblock %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags %} alert-{% if message.tags == "error" %}danger{% else %}{{ message.tags }}{% endif %}"{% endif %} role="alert">
+                      {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+        {% endblock %}
+
+        {% for i in matches %}
+        
+        <div class="col-md-6">
+
+            <div class="card">
+                
+                <div class="card-content" style="font-family:'Lato'">
+                    <a href = "/match/{{ forloop.counter }}" class="card-title activator match_heading">MATCH {{ forloop.counter }}<i class="material-icons right">more_vert</i></a>
+
+                    <div class="match_info" style="font-size: 20px">
+                        <span class="nz">{{ i.country1 }}</span><span class="vs"> Vs </span><span class="pak">{{ i.country2 }}</span>
+
+                        <div class="date">{{ i.day }}</div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        {% endfor %}
+        
+    
+{% endblock %}
+
+{% block script %}
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
+
+{% endblock %}

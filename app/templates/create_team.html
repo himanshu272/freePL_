@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+
+
+            {% block msgblock %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %} alert-{% if message.tags == "error" %}danger{% else %}{{ message.tags }}{% endif %}"{% endif %} role="alert">
+                          {{ message }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+            {% endblock %}
+
+            <form action="/match/{{ id }}" method="POST">
+                {% csrf_token %}
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading" style="font-weight: bold ; font-size: 25px ;font-family:'Lato'">CREATE TEAM</div>
+                    <div class="panel-body">
+                        <div style="float:center; font-size:30px; ">
+                            <b>Budget:
+                                <div id="budget"></div>
+                            </b>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player Name</th>
+                            <th>Country</th>
+                            <th>Role</th>
+                            <th>Cost</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in players %}
+                        <tr>
+                            <th scope="row"><input type="checkbox" id='cost{{ i.id }}' value="{{ i.name }}" name="sport">
+                            <label for="cost{{ i.id }}"></label>
+                            </th>
+                            <td>{{ i.name }}</td>
+                            <td class="country">{{ i.country }}</td>
+                            <td class="role">{{ i.role }}</td>
+                            <td class="cost">{{ i.cost }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            <br>
+             <button type="button" onClick="butt()" class="btn btn-info btn-lg" data-toggle="modal">Choose Captain</button>
+                <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+
+                            <div class="modal-body">
+
+                                        <select id="selectNumber" class="form-control" name="captain">
+
+                                    </select>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <input type="submit" name="submit" class="btn btn-default" value="Submit Team"/>
+                            </div>
+
+                    </div>
+                </div>
+
+
+            </form>
+
+
+
+{% endblock %}
+
+{% block script %}
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+
+    
+    var ctr = 0;
+    var budget = 1000;
+    var country_ctr = {}
+    var roles_ctr = {}
+    var i = 0;
+
+    function pluralize(role) {
+        if (["Bowler", "WicketKeeper", "AllRounder"].indexOf(role) >= 0) {
+            return role + "s";
+        } else if (role == "Batsman") {
+            return "Batsmen";
+        } else {
+            return null;
+        }
+    }
+
+    // Count the initial states and set the budget
+    $("input[type=checkbox]").each(function() {
+        i += 1;
+        var cost = parseInt($(this).parent().siblings('.cost').html());
+        var country = $(this).parent().siblings('.country').html();
+        var role = $(this).parent().siblings('.role').html();
+        if (!(country in country_ctr)) {
+            country_ctr[country] = 0;
+        }
+        if (!(role in roles_ctr)) {
+            roles_ctr[role] = 0;
+        }
+        if($(this).is(':checked')) {
+            ctr += 1;
+            budget -= cost;
+            country_ctr[country] += 1;
+            roles_ctr[role] += 1;
+        }
+    });
+
+    $("#budget").html(budget);
+
+    // On change event listener
+    $("input[type=checkbox]").change(function(){
+        var cost = parseInt($(this).parent().siblings('.cost').html());
+        var country = $(this).parent().siblings('.country').html();
+        var role = $(this).parent().siblings('.role').html();
+        if($(this).is(':checked')) {
+            if (budget - cost < 0) {
+                $(this).prop('checked', false);
+                alert("Budget Insufficient");
+            } else {
+                country_ctr[country] += 1;
+                roles_ctr[role] += 1;
+                budget -= cost;
+                ctr += 1;
+            }
+        } else {
+            country_ctr[country] -= 1;
+            roles_ctr[role] -= 1;
+            budget += cost;
+            ctr -= 1;
+        }
+        $("#budget").html(budget);
+    });
+
+    var favorite = [];
+
+    function butt() {
+
+        var roles_criteria = false;
+        if (roles_ctr['Batsman'] >= 4 &&
+            roles_ctr['AllRounder'] >= 2 &&
+            roles_ctr['Bowler'] >= 2 &&
+            roles_ctr['WicketKeeper'] == 1) {
+
+            roles_criteria = true;
+
+        }
+
+        var temp = [];
+        for (var role in roles_ctr) {
+            if (roles_ctr[role] <= 1) {
+                temp.push(roles_ctr[role] + " " + role);
+            } else {
+                temp.push(roles_ctr[role] + " " + pluralize(role));
+            }
+        }
+        var roles_message = "Roles criteria is not fulfilled. You have selected " + temp.join(", ");
+
+        var country_criteria = true;
+        for (var country in country_ctr) {
+            if (country_ctr[country] > 6) {
+                country_criteria = false;
+            }
+        }
+
+        if (ctr != 11) {
+            alert("Please select 11 players");
+        } else if (!roles_criteria) {
+            alert(roles_message);
+        } else if (!country_criteria) {
+            alert("Country criteria is not fulfilled. You have selected more than 6 players from one country!");
+        } else {
+            favorite = [];
+            var select = document.getElementById("selectNumber");
+            while (select.firstChild) {
+                select.removeChild(select.firstChild);
+            }
+            $.each($("input[type=checkbox]:checked"), function () {
+                var a = $(this).val();
+                var b = jQuery.inArray(a, favorite)
+                
+                if (parseInt(b) < 0) {
+                    favorite.push(a);
+
+                }
+                console.log(favorite)
+                var select = document.getElementById("selectNumber");
+                while (select.firstChild) {
+                    select.removeChild(select.firstChild);
+                }
+
+                for (var i = 0; i < favorite.length; i++) {
+                    //var opt = favorite[i];
+                    var el = "";
+                    el += '<option value="' + favorite[i] + '">'+favorite[i]+'</option>';
+                    $select = $(select);
+                    $select.append(el);
+
+                }
+
+            });
+
+            $('#myModal').modal('show')
+
+        }
+    }
+
+</script>
+
+{% endblock %}

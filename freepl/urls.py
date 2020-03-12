@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('app.urls')),
     path('',include('social.apps.django_app.urls',namespace='social')),
-    path('',include('django.contrib.auth.urls', namespace='auth')),
+    path('',include(('django.contrib.auth.urls','django'), namespace='auth')),
     path('api-auth/', include('rest_framework.urls')),
 
 ]

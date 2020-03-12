@@ -1,0 +1,47 @@
+ {% extends "base.html" %}
+{% load static from staticfiles %}
+{% block body %}
+
+
+<div class="container">
+<form method="POST">
+    {% csrf_token %}
+        <select id="selectNumber" class="form-control" style="display:block" name="id">
+            {% for i in matches %}
+            <option value="{{ i.id }}">{{ i.country1 }} {{ i.country2 }} {{ i.day }}</option>
+            {% endfor %}
+            </select>
+    <input type="submit" name="submit" class="btn btn-default"  value="View"/>
+    </form>
+</div>
+<div class="container">
+<table class="table">
+            <thead>
+            <tr>
+                <th>Player Name</th>
+                <th>Country</th>
+                <th>Role</th>
+                <th>Cost</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in players %}
+            <tr>
+                
+                <td> {{i.play.name}}{% if i.bool %}(captain){% endif %}</td>
+                
+                <td>{{ i.play.country }}</td>
+                <td>{{ i.play.role }}</td>
+
+                <td>{{ i.play.cost }}</td>
+            </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+            </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block body %}
+    
+<div class="card" style="font-family:'Times New Roman'">
+    <div class="card-content">
+        <div class="card hoverable">
+            <div class="card-content">
+                <p>This is a Fantasy Cricket League. We will be hosting matches mirroring the matches that are taking place live around the world. All you have to do is to select the team you would choose amongst the 22+ players participating in the match. You would be then allotted points on the basis of how the players actually performed</p>
+            </div>
+        </div>
+        <div class="card hoverable">
+            <div class="card-content">
+                <p><b>You have to select a minimum of 4 Batsmen, 2 Bowlers, 2 All Rounders and exactly 1 wicketkeeper.</b> You must also choose a team captain, whose end points will be <b>doubled.</b></p>
+                <p>
+                <b>THE POINTS WILL BE UPDATED WITHIN 3 HOURS OF COMPLETION OF THE MATCH.</b></p>
+                <p><b>SQUAD WILL BE LOCKED ONE AND A HALF HOUR BEFORE THE START OF THE MATCH.</b></p>
+
+            </div>
+        </div>
+        <div class="card hoverable">
+            <div class="card-content">
+                <p class="" style="font-family:'Times New Roman'">
+
+                    <h4>Batting Points</h4>
+
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Base Score</td>
+                            <td>1 point per run.</td>
+                        </tr>
+                        <tr>
+                            <td>Impact Score</td>
+                            <td>2 points per six, -5 for a duck.</td>
+                        </tr>
+                        <tr>
+                            <td>Milestone Score</td>
+                            <td>10 points for every 25 runs scored. </td>
+                        </tr>
+                        <tr>
+                            <td>Pace Bonus </td>
+                            <td> Runs Scored – Balls faced.(If negative then ignored)</td>
+                        </tr>
+                    </table>
+
+                    <h4>Bowling Points</h4>
+                    <table class="table table-striped">
+                    <tr>
+                       <td>Base Score</td>
+                        <td>20 points for first wicket taken.</td>
+                    </tr>
+                    <tr>
+                        <td>Impact Score</td>
+                        <td>20 points for a maiden over.</td>
+                    </tr>
+                    <tr>
+                        <td>Milestone Score</td>
+                        <td> 10 points for each subsequent wicket. </td>
+                    </tr>
+                    <tr>
+                        <td>Pace Bonus </td>
+                        <td>Balls bowled – Runs conceded. If positive, then it is doubled.(If negative then ignored) </td>
+                    </tr>
+                    </table>
+                    
+                    <h4> Fielding Points </h4>
+                    <table class="table table-striped">
+                    <tr>
+                        <td>Catch</td>
+                        <td>10 points </td>
+                    </tr>
+                    <tr>
+                        <td>Stumping </td>
+                        <td> 15 points </td>
+                    </tr>
+                    <tr>
+                        <td> Run Out</td>
+                        <td> 10 points for each player involved. </td>
+                    </tr>
+                    </table>
+                    
+                    <h4> Bonus Points </h4>
+                    <table class="table table-striped">
+                    <tr>
+                        <td>Player of the Match</td>
+                        <td> 25 points </td>
+                    </tr>
+                    <tr>
+                        <td><b> THE POINTS OF YOUR CAPTAIN GET DOUBLED </b></td>
+                    </tr>
+                    </table>
+                </p>
+            </div>
+        </div>
+        <div class="card hoverable">
+            <div class="card-content">
+                <p class="">Bring out the manager in you and play on to win prizes worth 5k+ and more!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
+
+{% endblock %}
