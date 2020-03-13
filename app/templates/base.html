@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html lang = "en">
 
@@ -58,33 +58,33 @@
                     <ul class="nav">
 
                         <li {% if tab == "1" %} class="active" {% endif %}>
-                            <a href="/matches">
+                            <a href="{% url 'app:matches' %}">
                                 <i class="ti-pie-chart"></i>
                                 <p>All Matches</p>
                             </a>
                         </li>
 
                         <li {% if tab == "2" %} class="active" {% endif %}>
-                            <a href="/leaderboard">
+                            <a href="{% url 'app:leaderboard' %}">
                                 <i class="ti-pie-chart"></i>
                                 <p>Leaderboard</p>
                             </a>
                         </li>
 
                         <li {% if tab == "3" %} class="active" {% endif %}>
-                            <a href="/rules">
+                            <a href="{% url 'app:rules' %}">
                                 <i class="ti-pie-chart"></i>
                                 <p>Rules</p>
                             </a>
                         </li>
                          <li {% if tab == "4" %} class="active" {% endif %}>
-                            <a href="/listteams">
+                            <a href="{% url 'app:list_team' %}">
                                 <i class="ti-pie-chart"></i>
                                 <p>View Squad</p>
                             </a>
                         </li>
                          <li {% if tab == "5" %} class="active" {% endif %}>
-                            <a href="/matchpoints">
+                            <a href="{% url 'app:matchpoints' %}">
                                 <i class="ti-pie-chart"></i>
                                 <p>Match Points</p>
                             </a>
