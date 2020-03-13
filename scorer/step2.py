@@ -5,7 +5,7 @@ import os
 import django
 django.setup()
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'freepl_main.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'freepl.settings')
 
 # this file is used to add matches and playerto match entries., to run this file, follow the same instruction as in load.py
 

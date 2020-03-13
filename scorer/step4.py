@@ -5,7 +5,7 @@ import os
 import django
 django.setup()
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'freepl_main.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'freepl.settings')
 # to run this file, do python3 manage.py shell and then do exec(open("load.py").read())
 
 person = Person.objects.all()
